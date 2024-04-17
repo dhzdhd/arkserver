@@ -1,4 +1,4 @@
 config:
-  arkserver:instanceType: t3.xlarge
+  arkserver:instanceType: t3.large
   arkserver:vpcNetworkCidr: 10.0.0.0/16
   aws:region: ap-south-1
