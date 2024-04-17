@@ -12,6 +12,11 @@ services:
       - 7778:7778/udp
       - 7777:7777/udp
     volumes:
-      - ./data/ark/ark:/ark
-      - ./data/ark/steam:/home/steam/.steam/steamapps
-      - ./data/ark/arkserver:/arkserver
+      - ark:/ark
+      - steam:/home/steam/.steam/steamapps
+      - arkserver:/arkserver
+
+volumes:
+  ark:
+  steam:
+  arkserver:

@@ -4,11 +4,7 @@ import pulumi_aws as aws
 config = pulumi.Config()
 
 instance_type = config.get("instanceType")
-if instance_type is None:
-    instance_type = "t3.micro"
 vpc_network_cidr = config.get("vpcNetworkCidr")
-if vpc_network_cidr is None:
-    vpc_network_cidr = "10.0.0.0/16"
 
 ami = aws.ec2.get_ami(
     filters=[
