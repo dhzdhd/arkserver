@@ -14,10 +14,10 @@ ami = aws.ec2.get_ami(
     filters=[
         aws.ec2.GetAmiFilterArgs(
             name="name",
-            values=["amzn2-ami-hvm-*"],
-        )
+            values=["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"],
+        ),
     ],
-    owners=["amazon"],
+    owners=["099720109477"],
     most_recent=True,
 ).id
 
@@ -83,12 +83,7 @@ sec_group = aws.ec2.SecurityGroup(
     ],
 )
 
-ebs = aws.ebs.Volume(
-    "ebs-volume",
-    size=30,
-    tags={"Name": "arkstorage"},
-)
-
+existing_key_pair = aws.ec2.KeyPair.get("existingKeyPair", "aws")
 
 server = aws.ec2.Instance(
     "arkserver",
@@ -96,10 +91,10 @@ server = aws.ec2.Instance(
     subnet_id=subnet.id,
     vpc_security_group_ids=[sec_group.id],
     ami=ami,
-    root_block_device={
-        "volume_id": ebs.id,
-        "volume_type": "gp3",
-    },
+    key_name=existing_key_pair.key_name,
+    root_block_device=aws.ec2.InstanceRootBlockDeviceArgs(
+        volume_size=30, volume_type="gp3"
+    ),
     tags={
         "Name": "ark",
     },
