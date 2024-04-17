@@ -1,0 +1,17 @@
+services:
+  arkserver:
+    container_name: arkserver
+    image: drpsychick/arkserver:latest
+    env_file:
+      - .env
+    ports:
+      - 27015:27015
+      - 7778:7778
+      - 7777:7777
+      - 27015:27015/udp
+      - 7778:7778/udp
+      - 7777:7777/udp
+    volumes:
+      - ./data/ark/ark:/ark
+      - ./data/ark/steam:/home/steam/.steam/steamapps
+      - ./data/ark/arkserver:/arkserver
