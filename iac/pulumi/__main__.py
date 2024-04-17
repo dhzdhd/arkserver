@@ -45,30 +45,29 @@ route_table_association = aws.ec2.RouteTableAssociation(
     "routeTableAssociation", subnet_id=subnet.id, route_table_id=route_table.id
 )
 
+ports = (
+    ("tcp", 80),
+    ("tcp", 443),
+    ("tcp", 22),
+    ("tcp", 7777),
+    ("tcp", 7778),
+    ("tcp", 27015),
+    ("udp", 7777),
+    ("udp", 7778),
+    ("udp", 27015),
+)
+ingress = [
+    aws.ec2.SecurityGroupIngressArgs(
+        from_port=port, to_port=port, protocol=protocol, cidr_blocks=["0.0.0.0/0"]
+    )
+    for protocol, port in ports
+]
+
 sec_group = aws.ec2.SecurityGroup(
     "secGroup",
     description="Enable HTTP access",
     vpc_id=vpc.id,
-    ingress=[
-        aws.ec2.SecurityGroupIngressArgs(
-            from_port=80,
-            to_port=80,
-            protocol="tcp",
-            cidr_blocks=["0.0.0.0/0"],
-        ),
-        aws.ec2.SecurityGroupIngressArgs(
-            from_port=443,
-            to_port=443,
-            protocol="tcp",
-            cidr_blocks=["0.0.0.0/0"],
-        ),
-        aws.ec2.SecurityGroupIngressArgs(
-            from_port=22,
-            to_port=22,
-            protocol="tcp",
-            cidr_blocks=["0.0.0.0/0"],
-        ),
-    ],
+    ingress=ingress,
     egress=[
         aws.ec2.SecurityGroupEgressArgs(
             from_port=0,
