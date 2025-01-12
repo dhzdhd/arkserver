@@ -1,6 +1,6 @@
 # Ark Server
 
-A Ark SE server setup using Docker and a bunch of IaC to setup the server on AWS.
+An Ark SE server setup using Docker and a bunch of IaC to setup the server on AWS.
 
 ## Setup
 
